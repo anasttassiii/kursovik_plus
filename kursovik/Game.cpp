@@ -1,4 +1,6 @@
 #include "Game.h"
+#include <SFML/Graphics.hpp>
+using namespace sf;
 
 Game::Game() : window(VideoMode(size* N, size* M), "Snake Game!"), snake(4), fruit(10, 10), isGameOver(false) {
     srand(static_cast<unsigned>(time(0)));
@@ -34,90 +36,121 @@ void Game::run() {
     }
 }
 
+void Game::handleInput() {
+    Event event;
+    while (window.pollEvent(event)) {
+        if (event.type == Event::Closed) {
+            window.close();
+        }
+    }
+
+    if (isGameOver) {
+        if (Keyboard::isKeyPressed(Keyboard::G)) {
+            restartGame(); 
+        }
+        else if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+            window.close(); 
+        }
+        return;
+    }
+
+
+    if (Keyboard::isKeyPressed(Keyboard::Left)) {
+        snake.setDirection(1);
+    }
+    if (Keyboard::isKeyPressed(Keyboard::Right)) {
+        snake.setDirection(2);
+    }
+    if (Keyboard::isKeyPressed(Keyboard::Up)) {
+        snake.setDirection(3);
+    }
+    if (Keyboard::isKeyPressed(Keyboard::Down)) {
+        snake.setDirection(0);
+    }
+}
 
 
 void Game::update() {
-    snake.move(); // Move the snake
+    snake.move(); // Перемещение змеи
 
-    // Check if snake goes out of bounds
+    // Проверка, выходит ли змея за пределы поля
     if (snake.checkCollisionBounds(window.getSize().x, window.getSize().y)) {
-        isGameOver = true; // Activate Game Over
+        isGameOver = true; 
     }
 
-    // Check for fruit consumption
+    // Проверка на поедение фруктов
     if (snake.getBody().front().getPosition() == Vector2f(fruit.x * size, fruit.y * size)) {
-        snake.grow(); // Increase snake length
-        fruit.respawn(N, M); // Respawn fruit
-        score++; // Increase score
-        updateScoreText(); // Update score text
+        snake.grow(); // Увеличение длину змеи
+        fruit.respawn(N, M); // респавн фруктов
+        score++; // увеличение счета
+        updateScoreText(); // обновление счета
     }
 
-    snake.checkSelfCollision(); // Check for self-collision
+    snake.checkSelfCollision(); // Проверка на самостолкновение
 
     if (snake.getLength() < 1) {
-        isGameOver = true; // If snake length is less than 1, game over
+        isGameOver = true; // Если длина змеи меньше 1, игра окончена
     }
 }
 
 
 void Game::updateScoreText() {
-    std::ostringstream scoreStream; // Create a stream for score
-    scoreStream << "Score: " << score; // Format score text
-    scoreText.setString(scoreStream.str()); // Set score text
+    std::ostringstream scoreStream; 
+    scoreStream << "Score: " << score; 
+    scoreText.setString(scoreStream.str()); 
 }
 
 void Game::draw() {
     window.clear();
     if (isGameOver) {
-        drawGameOver(); // Draw Game Over screen
+        drawGameOver(); // отрисовка экрана Game Over
     }
     else {
-        // Draw fruit
+        // отрисовка фрукта
         CircleShape fruitShape(8);
         fruitShape.setFillColor(Color::Red);
         fruitShape.setPosition(fruit.x * size, fruit.y * size);
         window.draw(fruitShape);
 
-        // Draw snake
+        // отрисовка змейки
         for (const auto& segment : snake.getBody()) {
             window.draw(segment);
         }
 
-        // Draw score text
+        // отрисовка счета
         window.draw(scoreText);
     }
     window.display();
 }
 
 void Game::drawGameOver() {
-    // Draw Game Over text
     Text gameOverText;
     gameOverText.setFont(font);
-    gameOverText.setCharacterSize(50); // Large font for Game Over
+    gameOverText.setCharacterSize(50); 
     gameOverText.setFillColor(Color::Red);
     gameOverText.setString("Game Over");
 
-    // Position the text
+    // расположение текста
     gameOverText.setPosition(window.getSize().x / 2 - gameOverText.getGlobalBounds().width / 2,
         window.getSize().y / 2 - gameOverText.getGlobalBounds().height / 2 - 30);
     window.draw(gameOverText);
 
-    // Draw score display text
+    // отрисовка счета
     Text scoreDisplayText;
     scoreDisplayText.setFont(font);
-    scoreDisplayText.setCharacterSize(30); // Smaller font for score
+    scoreDisplayText.setCharacterSize(30); 
     scoreDisplayText.setFillColor(Color::White);
     std::ostringstream scoreStream;
-    scoreStream << "Score: " << score; // Format score text
+    scoreStream << "Score: " << score; 
     scoreDisplayText.setString(scoreStream.str());
     scoreDisplayText.setPosition(window.getSize().x / 2 - scoreDisplayText.getGlobalBounds().width / 2,
         window.getSize().y / 2 + 10);
     window.draw(scoreDisplayText);
 
-    // Instructions for restarting
+    // Инструкция по перезапуску
     Text instructionsText;
     instructionsText.setFont(font);
-    instructionsText.setCharacterSize(20); // Even smaller font for instructions
+    instructionsText.setCharacterSize(20); 
     instructionsText.setFillColor(Color::White);
     instructionsText.setString("Press 'G' to Restart or 'Esc' to Quit");
     instructionsText.setPosition(window.getSize().x / 2 - instructionsText.getGlobalBounds().width / 2,

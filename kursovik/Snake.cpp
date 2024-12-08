@@ -1,4 +1,6 @@
 #include "Snake.h"
+#include <SFML/Graphics.hpp>
+using namespace sf;
 
 Snake::Snake(int initialSize) {
     direction = 0; //движение вниз
@@ -44,6 +46,21 @@ std::vector<CircleShape>& Snake::getBody() {
     return body;
 }
 
+bool Snake::checkCollisionBounds(int width, int height) {
+    // ѕроверка, выходит ли голова за пределы пол€
+    Vector2f headPos = body[0].getPosition();
+    return (headPos.x < 0 || headPos.x >= width || headPos.y < 0 || headPos.y >= height);
+}
+
+void Snake::checkSelfCollision() {
+    for (int i = 1; i < body.size(); ++i) {
+        if (body[0].getPosition() == body[i].getPosition()) {
+            // ≈сли голова сталкиваетс€ с телом
+            body.resize(i);
+            break;
+        }
+    }
+}
 
 
 int Snake::getLength() {

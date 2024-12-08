@@ -1,7 +1,8 @@
 #include "Game.h"
+#include <SFML/Graphics.hpp>
 
 int main() {
-    Game game; // Create game object
-    game.run(); // Start the game
+    Game game; // создание игры
+    game.run(); // запуск игры
     return 0;
 }
