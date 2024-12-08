@@ -5,21 +5,20 @@
 #include "Snake.h"
 #include "Fruit.h"
 #include <sstream>
-
+#include <SFML/Graphics.hpp>
 
 
 class Game {
 private:
-    const int N = 70; // Number of cells horizontally
-    const int M = 40; // Number of cells vertically
-    const int size = 16; // Size of one cell
+    const int N = 70; // Количество ячеек по горизонтали
+    const int M = 40; // Количество ячеек по вертикали
+    const int size = 16; // Размер одной ячейки
     Fruit fruit;
 public:
     Game();
     void run();
 
 private:
-    void handleInput();
     void update();
     void updateScoreText();
     void draw();

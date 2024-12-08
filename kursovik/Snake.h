@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 
 
@@ -15,8 +16,6 @@ public:
     void move();
     void grow();
     void setDirection(int dir);
-    bool checkCollisionBounds(int width, int height);
-    void checkSelfCollision();
     int getLength();
 };
 
