@@ -141,10 +141,8 @@
   <ItemGroup>
     <ClCompile Include="Fruit.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="kursovik.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Snake.cpp" />
-    <ClCompile Include="Snakecpp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fruit.h" />
