@@ -78,6 +78,11 @@ void Game::update() {
         isGameOver = true; 
     }
 
+    // Проверка на самостолкновение
+    if (snake.checkSelfCollision()) {
+        isGameOver = true;
+    }
+
     // Проверка на поедение фруктов
     if (snake.getBody().front().getPosition() == Vector2f(fruit.x * size, fruit.y * size)) {
         snake.grow(); // Увеличение длину змеи
@@ -85,8 +90,6 @@ void Game::update() {
         score++; // увеличение счета
         updateScoreText(); // обновление счета
     }
-
-    snake.checkSelfCollision(); // Проверка на самостолкновение
 
     if (snake.getLength() < 1) {
         isGameOver = true; // Если длина змеи меньше 1, игра окончена

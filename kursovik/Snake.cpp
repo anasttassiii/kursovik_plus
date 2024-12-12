@@ -9,7 +9,7 @@ Snake::Snake(int initialSize) {
 
     for (int i = 0; i < initialSize; ++i) {
         body[i].setRadius(8);
-        body[i].setFillColor(Color::White);
+        body[i].setFillColor(Color::Magenta);
         body[i].setPosition(10 * 16, 10 * 16 + i * 16); 
     }
 }
@@ -29,7 +29,7 @@ void Snake::move() {
 
 void Snake::grow() {
     CircleShape newSegment(8);
-    newSegment.setFillColor(Color::White);
+    newSegment.setFillColor(Color::Magenta);
     body.push_back(newSegment); // Добавить новый сегмент в конец змейки
 }
 
@@ -52,14 +52,19 @@ bool Snake::checkCollisionBounds(int width, int height) {
     return (headPos.x < 0 || headPos.x >= width || headPos.y < 0 || headPos.y >= height);
 }
 
-void Snake::checkSelfCollision() {
-    for (int i = 1; i < body.size(); ++i) {
-        if (body[0].getPosition() == body[i].getPosition()) {
-            // Если голова сталкивается с телом
-            body.resize(i);
-            break;
+bool Snake::checkSelfCollision() {
+    int flag = 0;
+    if (body.size() != 4) {
+        for (int i = 1; i < body.size(); ++i) {
+            if (body[0].getPosition() == body[i].getPosition()) {
+                // Если голова сталкивается с телом
+                flag = 1;
+                break;
+            }
         }
     }
+    if (flag == 1) return true;
+    else return false;
 }
 
 

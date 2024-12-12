@@ -21,7 +21,7 @@ public:
     void setDirection(int dir);
     std::vector<CircleShape>& getBody();
     bool checkCollisionBounds(int width, int height);
-    void checkSelfCollision();
+    bool checkSelfCollision();
 
     int getLength();
 };
