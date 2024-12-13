@@ -15,12 +15,12 @@ Snake::Snake(int initialSize) {
 }
 
 void Snake::move() {
-    // Сохранение предыдущие позиции сегментов
+    // Сохранение предыдущих позиций сегментов
     for (int i = body.size() - 1; i > 0; --i) {
         body[i].setPosition(body[i - 1].getPosition());
     }
 
-    // Изменение положение головы в зависимости от направления
+    // Изменение положения головы в зависимости от направления
     if (direction == 0) body[0].move(0, 16);   // down
     if (direction == 1) body[0].move(-16, 0);  // left
     if (direction == 2) body[0].move(16, 0);   // right

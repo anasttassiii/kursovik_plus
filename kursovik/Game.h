@@ -21,6 +21,8 @@ private:
     float timer;
     float delay;
     int score; // Переменная для хранения результатов
+    int totalGamesPlayed; // общее кол-во сыгранных игр
+    int totalScore; // максимальный счет за все игры
     Font font; // Шрифт для отображения очков
     Text scoreText; // Текст для отображения счета
     bool isGameOver; // Флаг для проверки состояния игры

@@ -12,7 +12,8 @@ Game::Game() : window(VideoMode(size* N, size* M), "Snake Game!"), snake(4), fru
 
     }
 
-    
+    totalGamesPlayed = 1;
+    totalScore = 0;
     score = 0; 
     scoreText.setFont(font);
     scoreText.setCharacterSize(20);
@@ -71,6 +72,7 @@ void Game::handleInput() {
 
 
 void Game::update() {
+    updateScoreText();
     snake.move(); // Перемещение змеи
 
     // Проверка, выходит ли змея за пределы поля
@@ -133,6 +135,9 @@ void Game::drawGameOver() {
     gameOverText.setFillColor(Color::Red);
     gameOverText.setString("Game Over");
 
+    if (score > totalScore) totalScore = score;
+    
+
     // расположение текста
     gameOverText.setPosition(window.getSize().x / 2 - gameOverText.getGlobalBounds().width / 2,
         window.getSize().y / 2 - gameOverText.getGlobalBounds().height / 2 - 30);
@@ -150,6 +155,30 @@ void Game::drawGameOver() {
         window.getSize().y / 2 + 10);
     window.draw(scoreDisplayText);
 
+    // отрисовка максимального счета
+    Text totalScoreText;
+    totalScoreText.setFont(font);
+    totalScoreText.setCharacterSize(20);
+    totalScoreText.setFillColor(Color::White);
+    std::ostringstream totalScoreStream;
+    totalScoreStream << "Total Score: " << totalScore;
+    totalScoreText.setString(totalScoreStream.str());
+    totalScoreText.setPosition(window.getSize().x / 2 - scoreDisplayText.getGlobalBounds().width / 2 - 8,
+        window.getSize().y / 2 + 100);
+    window.draw(totalScoreText);
+
+    // отрисовка кол-ва сыгранных игр
+    Text totalGamesPlayedText;
+    totalGamesPlayedText.setFont(font);
+    totalGamesPlayedText.setCharacterSize(20);
+    totalGamesPlayedText.setFillColor(Color::White);
+    std::ostringstream totalGamesPlayedStream;
+    totalGamesPlayedStream << "Total Games Played: " << totalGamesPlayed;
+    totalGamesPlayedText.setString(totalGamesPlayedStream.str());
+    totalGamesPlayedText.setPosition(window.getSize().x / 2 - scoreDisplayText.getGlobalBounds().width / 2 - 40,
+        window.getSize().y / 2 + 130);
+    window.draw(totalGamesPlayedText);
+
     // Инструкция по перезапуску
     Text instructionsText;
     instructionsText.setFont(font);
@@ -157,12 +186,13 @@ void Game::drawGameOver() {
     instructionsText.setFillColor(Color::White);
     instructionsText.setString("Press 'G' to Restart or 'Esc' to Quit");
     instructionsText.setPosition(window.getSize().x / 2 - instructionsText.getGlobalBounds().width / 2,
-        window.getSize().y / 2 + 50);
+        window.getSize().y / 2 + 250);
     window.draw(instructionsText);
 }
 
 void Game::restartGame() {
     score = 0; 
+    totalGamesPlayed++;
     scoreText.setString("Score: 0"); 
     isGameOver = false; 
     snake = Snake(4); 
