@@ -74,62 +74,65 @@ void Game::handleInput() {
 
 
 void Game::update() {
-    updateScoreText();
-    snake.move(); // Перемещение змеи
+    snake.move(); // Move the snake
 
-    // Проверка, выходит ли змея за пределы поля
-    if (snake.checkCollisionBounds(window.getSize().x, window.getSize().y)) {
-        isGameOver = true; 
-    }
-
-    // Проверка на самостолкновение
-    if (snake.checkSelfCollision()) {
+    // Check for collisions with the bounds
+    if (snake.checkCollisionBounds(window.getSize().x, window.getSize().y) || snake.checkSelfCollision()) {
         isGameOver = true;
     }
 
-    // Проверка на поедение фруктов
+    // Check for fruit consumption
     if (snake.getBody().front().getPosition() == Vector2f(fruit.x * size, fruit.y * size)) {
-        snake.grow(); // Увеличение длину змеи
-        fruit.respawn(N, M); // респавн фруктов
-        score++; // увеличение счета
-        updateScoreText(); // обновление счета
+        snake.grow(); // Grow the snake
+        fruit.respawn(N, M); // Respawn the fruit
+        score++; // Increase score
+        updateScoreText(); // Update score text only when score changes
     }
 
     if (snake.getLength() < 1) {
-        isGameOver = true; // Если длина змеи меньше 1, игра окончена
+        isGameOver = true; // End game if snake length is less than 1
     }
 }
 
 
 void Game::updateScoreText() {
-    std::ostringstream scoreStream; 
-    scoreStream << "Score: " << score; 
-    scoreText.setString(scoreStream.str()); 
+    std::ostringstream scoreStream;
+    scoreStream << "Score: " << score;
+    scoreText.setString(scoreStream.str());
 }
 
 void Game::draw() {
     window.clear();
     if (isGameOver) {
-        drawGameOver(); // отрисовка экрана Game Over
+        drawGameOver(); // Draw Game Over screen
     }
     else {
-        // отрисовка фрукта
+        // Draw fruit
         CircleShape fruitShape(8);
         fruitShape.setFillColor(Color::Red);
         fruitShape.setPosition(fruit.x * size, fruit.y * size);
         window.draw(fruitShape);
 
-        // отрисовка змейки
+        fruitShape.setFillColor(Color::Black);
+        fruitShape.setPosition(0 * size, 0 * size);
+        window.draw(fruitShape);
+
+        // Draw snake
         for (const auto& segment : snake.getBody()) {
+            fruitShape.setFillColor(Color::Black);
+            fruitShape.setPosition(0 * size, 0 * size);
+            window.draw(fruitShape);
             window.draw(segment);
+            fruitShape.setFillColor(Color::Black);
+            fruitShape.setPosition(0 * size, 0 * size);
+            window.draw(fruitShape);
         }
 
-        // отрисовка счета
+        // Draw score
         window.draw(scoreText);
     }
     window.display();
 }
-
 
 
 void Game::drawGameOver() {

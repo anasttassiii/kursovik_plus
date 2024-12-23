@@ -9,7 +9,7 @@ Snake::Snake(int initialSize) {
 
     for (int i = 0; i < initialSize; ++i) {
         body[i].setRadius(8);
-        body[i].setFillColor(Color::Magenta);
+        body[i].setFillColor(Color::Green);
         body[i].setPosition(10 * 16, 10 * 16 + i * 16); 
     }
 }
@@ -29,7 +29,7 @@ void Snake::move() {
 
 void Snake::grow() {
     CircleShape newSegment(8);
-    newSegment.setFillColor(Color::Magenta);
+    newSegment.setFillColor(Color::Green);
     body.push_back(newSegment); // Добавить новый сегмент в конец змейки
 }
 
