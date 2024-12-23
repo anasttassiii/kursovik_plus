@@ -9,12 +9,12 @@ Game::Game() : window(VideoMode(size* N, size* M), "Snake Game!"), snake(4), fru
 
     // загрузка шрифта
     if (!font.loadFromFile("font.ttf")) {
-
+       
     }
 
     totalGamesPlayed = 1;
     totalScore = 0;
-    score = 0; 
+    score = 0;
     scoreText.setFont(font);
     scoreText.setCharacterSize(20);
     scoreText.setFillColor(Color::White);
@@ -28,7 +28,7 @@ void Game::run() {
         handleInput();
         if (!isGameOver) {
             if (timer > delay) {
-                timer = 0; 
+                timer = 0;
                 update();
             }
         }
@@ -47,10 +47,10 @@ void Game::handleInput() {
 
     if (isGameOver) {
         if (Keyboard::isKeyPressed(Keyboard::G)) {
-            restartGame(); 
+            restartGame();
         }
         else if (Keyboard::isKeyPressed(Keyboard::Escape)) {
-            window.close(); 
+            window.close();
         }
         return;
     }
@@ -69,6 +69,8 @@ void Game::handleInput() {
         snake.setDirection(0);
     }
 }
+
+
 
 
 void Game::update() {
@@ -127,6 +129,8 @@ void Game::draw() {
     }
     window.display();
 }
+
+
 
 void Game::drawGameOver() {
     Text gameOverText;

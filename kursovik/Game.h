@@ -26,6 +26,7 @@ private:
     Font font; // Шрифт для отображения очков
     Text scoreText; // Текст для отображения счета
     bool isGameOver; // Флаг для проверки состояния игры
+    bool isWelcomeScreen;
 
 public:
     Game();
@@ -37,6 +38,7 @@ private:
     void updateScoreText();
     void draw();
     void drawGameOver();
+ 
     void restartGame();
 };
 
