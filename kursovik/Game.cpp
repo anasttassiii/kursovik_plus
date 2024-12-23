@@ -72,25 +72,24 @@ void Game::handleInput() {
 
 
 
-
 void Game::update() {
-    snake.move(); // Move the snake
+    snake.move(); // Двигаем змею
 
-    // Check for collisions with the bounds
+    // Проверяем на столкновения с границами
     if (snake.checkCollisionBounds(window.getSize().x, window.getSize().y) || snake.checkSelfCollision()) {
         isGameOver = true;
     }
 
-    // Check for fruit consumption
+    // Проверяем на потребление фруктов
     if (snake.getBody().front().getPosition() == Vector2f(fruit.x * size, fruit.y * size)) {
-        snake.grow(); // Grow the snake
-        fruit.respawn(N, M); // Respawn the fruit
-        score++; // Increase score
-        updateScoreText(); // Update score text only when score changes
+        snake.grow(); // Увеличиваем змею
+        fruit.respawn(N, M); // Воспроизводим фрукт
+        score++; // Увеличиваем счет
+        updateScoreText(); // Обновляем текст счета только при изменении счета
     }
 
     if (snake.getLength() < 1) {
-        isGameOver = true; // End game if snake length is less than 1
+        isGameOver = true; // Завершаем игру, если длина змеи меньше 1
     }
 }
 
