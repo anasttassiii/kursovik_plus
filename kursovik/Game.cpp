@@ -103,10 +103,10 @@ void Game::updateScoreText() {
 void Game::draw() {
     window.clear();
     if (isGameOver) {
-        drawGameOver(); // Draw Game Over screen
+        drawGameOver(); // рисуем экран окончания игры
     }
     else {
-        // Draw fruit
+        // рисуем фрукт
         CircleShape fruitShape(8);
         fruitShape.setFillColor(Color::Red);
         fruitShape.setPosition(fruit.x * size, fruit.y * size);
@@ -116,7 +116,7 @@ void Game::draw() {
         fruitShape.setPosition(0 * size, 0 * size);
         window.draw(fruitShape);
 
-        // Draw snake
+        // рисуем змейку
         for (const auto& segment : snake.getBody()) {
             fruitShape.setFillColor(Color::Black);
             fruitShape.setPosition(0 * size, 0 * size);
@@ -127,7 +127,7 @@ void Game::draw() {
             window.draw(fruitShape);
         }
 
-        // Draw score
+        // рисуем кол-во баллов
         window.draw(scoreText);
     }
     window.display();

@@ -67,7 +67,7 @@ void showWelcomeScreen(sf::RenderWindow& window, sf::Font& font) {
 
     // Расположение инструкции
     instructionsText.setPosition(window.getSize().x / 2 - instructionsText.getGlobalBounds().width / 2,
-        window.getSize().y / 2 + 100);
+        window.getSize().y / 2 + 200);
 
     // Основной цикл для экрана приветствия
     while (true) {
@@ -86,7 +86,7 @@ void showWelcomeScreen(sf::RenderWindow& window, sf::Font& font) {
             }
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Escape) {
-                    start - false;
+                    start = false;
                     window.close();
                 }
                 else {
@@ -98,18 +98,19 @@ void showWelcomeScreen(sf::RenderWindow& window, sf::Font& font) {
 }
 
 int main() {
+    sf::RenderWindow window(sf::VideoMode(1120, 640), "Snake Game!");
+    sf::Font font;
+
+    // Загрузить шрифт
+    if (!font.loadFromFile("font.ttf")) {
+        std::cerr << "Error loading font" << std::endl;
+        return -1; // Выход при сбое загрузки шрифта
+    }
+
+    // Показать экран приветствия
+    showWelcomeScreen(window, font);
     if (start != false) {
-        sf::RenderWindow window(sf::VideoMode(1120, 640), "Snake Game!"); 
-        sf::Font font;
-
-        // Загрузить шрифт
-        if (!font.loadFromFile("font.ttf")) {
-            std::cerr << "Error loading font" << std::endl;
-            return -1; // Выход при сбое загрузки шрифта
-        }
-
-        // Показать экран приветствия
-        showWelcomeScreen(window, font);
+        
 
         // Создание игры
         Game game;
